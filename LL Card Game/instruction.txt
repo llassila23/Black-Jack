@@ -1,1 +1,2 @@
-This is the instructions for black jack
+This is the instructions for black jack.
+this is line two
