@@ -3,12 +3,12 @@
 public class CardMain{ 
     // execute my program
     public static void main(String[]args){
-// create new instance of cardMethod
+cardMethod myGame = new cardMethod();
 // begin calling methods to act on the card class
-        // print instructions (file I/O)
-        //shuffle
+        System.out.println(cardMethod.instructions());
+        // shuffle
         // deal (display to terminal)
-        // ** if possible** deal to computer too, play against computer
+        // ** if possible ** deal to computer too, play against computer
         // ** points system, could wager
         // logic operation
         // deal again or compare hands

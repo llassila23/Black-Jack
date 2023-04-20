@@ -3,10 +3,32 @@
 // I will choose the game 21 (aka black jack) because I know it best. Being a simpler game I may 
 // be able to add more funtionality to my program rather than working out the nuances of the game itself.
 
+import java.io.*; // for reading instruction file
+import java.util.Scanner;// scanner utility
+import java.util.Random;// random number utility
+
+
 public class CardMethod{
-    // ints: card counter, points counter
+    
+    private int pPoints = 10 ; // points int for player
+    private int cPoints = 10 ; // points int for computer
+    private int cardCounter; // keep track of cards moved
+    private final int numCards = 52;
+    
+    Random rand = new Random(); // starts new random number generator
+
+
+    // int randNum = rand.nextInt(53)
+
     // file IO for instructions
-    // start with 10 points
+    public instruction(){
+        Scanner readLine = new Scanner(new file(instruction.txt));
+        
+        while(readLine.hasNextLine){
+            String line = readLine.nextLine;
+            return line; 
+        }
+    }
     // randomizer for the shuffle function
     // two arrays, one for face one for suite
     // use arrays to create a card by taking an element from suite and face arrays

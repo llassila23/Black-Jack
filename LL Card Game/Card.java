@@ -3,15 +3,15 @@
 // it will return the card to the CardMethod class
 
 public class Card {
-    // private string face
-    // private string suite
+    private String face;
+    private String suite;
 
     // constructor method, initialize the face and suite of object Card
     public Card(String cardFace, String cardSuite ){
         this.face = cardFace;
         this.suite = cardSuite;
     } // end constructor
-    
+
     // return Card as a string consisting of face and suite
     public String toString(){
         return face + "of" + suite;
