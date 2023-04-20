@@ -4,8 +4,7 @@
 // be able to add more funtionality to my program rather than working out the nuances of the game itself.
 
 import java.io.*; // for reading instruction file
-import java.util.Scanner;// scanner utility
-import java.util.Random;// random number utility
+import java.util.*;// scanner, queue, random utility
 
 
 public class CardMethod{
@@ -21,13 +20,18 @@ public class CardMethod{
     // int randNum = rand.nextInt(53)
 
     // file IO for instructions
-    public instruction(){
-        Scanner readLine = new Scanner(new file(instruction.txt));
+    public static Queue<String> instructions() 
+        throws FileNotFoundException{
+        Scanner readLine = new Scanner(new File("instruction.txt"));
+        Queue <String> q = new LinkedList<String>();
+        String line = null;
         
-        while(readLine.hasNextLine){
-            String line = readLine.nextLine;
-            return line; 
+        while(readLine.hasNextLine()){
+           
+             line = readLine.nextLine();
+            q.add(line);
         }
+        return q;
     }
     // randomizer for the shuffle function
     // two arrays, one for face one for suite

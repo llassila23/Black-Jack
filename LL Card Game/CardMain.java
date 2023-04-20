@@ -1,11 +1,20 @@
+
 // the Card Main class will execute the program by calling the methods defined in Card Method
+import java.io.*;
+import java.util.*;
 
 public class CardMain{ 
     // execute my program
-    public static void main(String[]args){
-cardMethod myGame = new cardMethod();
+    public static void main(String[]args) 
+        throws FileNotFoundException{
+
+            CardMethod myGame = new CardMethod();
 // begin calling methods to act on the card class
-        System.out.println(cardMethod.instructions());
+        Queue<String> q = CardMethod.instructions();
+        while(!q.isEmpty()){
+            System.out.println(q.remove());
+            
+        }
         // shuffle
         // deal (display to terminal)
         // ** if possible ** deal to computer too, play against computer
