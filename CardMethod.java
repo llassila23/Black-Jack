@@ -14,18 +14,20 @@ public class CardMethod{
     private int pPoints = 10 ; // points int for player
     private int cPoints = 10 ; // points int for computer
     private int pot; // for the points bet on game
-    private boolean gamble = true; // for making sure bet has been made. false once bets are made
+    private boolean gamble; // for making sure bet has been made. false once bets are made
     private int cardCounter; // keep track of cards moved
     private int compHand; // int for value of computer hand
     private int playHand; // hand for player
+    private int compHandCount = 0;// counter for comp hand valueation
     private final int numCards = 52;
 
+    String winString = null; // string for win statement
 
     Scanner input = new Scanner(System.in);
     
     Random rand = new Random(); // starts new random number generator
 
-    Card[] deck = new Card[52];
+    Card[] deck = new Card[numCards];
 
     Stack <Card> deckStack = new Stack<Card>(); //  create a stack for the shuffled deck
     // array list for the ** computer and the player
@@ -74,8 +76,8 @@ public class CardMethod{
 
     
     // shuffle them using the random number, array reversal ish but with rand num for index
-   public void shuffle(){
-    
+   public void shuffle(){ 
+    for(int i = 0; i<=10; i++){ // shuffle 10 times
         while(cardCounter<= 26){ // shuffles two cards per loop 
             int randNum = rand.nextInt(52);
             int randNumTwo = rand.nextInt(52);
@@ -84,6 +86,7 @@ public class CardMethod{
                 deck[randNum] = temp;
             cardCounter++; 
         }
+    }// end for loop
     // put this shuffled array into a stack
         for(int i = 0; i<=51; i++){
             deckStack.add(deck[i]); // run a loop to add the cards from the shuffled deck array to the stack
@@ -94,11 +97,12 @@ public class CardMethod{
     
     // ** offer wagers
    public int bet(){
+    gamble = true;// set gamble to true
     System.out.println("You have " + pPoints + " points");
     System.out.println("What would you like to wager?");
         int bet = input.nextInt();
         while(gamble){
-            if (bet<=pPoints && bet <= cPoints){
+            if (bet<=pPoints ){
                 pot += 2*bet;
                 cPoints -= bet;
                 pPoints -= bet;
@@ -112,129 +116,195 @@ public class CardMethod{
    }
     // array list for the ** computer and the player
     // deal the 2 cards per player
-   public ArrayList<Card> deal(){
-        while(cardCounter <= 1){ 
+   public ArrayList<Card> deal(int cardChoice){
+        while(cardCounter <=1 && !deckStack.isEmpty()){ 
+                player.add(deckStack.pop()); // take top card off. Give to player
+                comp.add(deckStack.pop());
+                cardCounter++;   
+    }// end while
+    // offer a hit
+        if(cardCounter >= 1 && cardChoice == 1 ){ // if player wants additional card
             player.add(deckStack.pop()); // take top card off. Give to player
-            comp.add(deckStack.pop());
-            cardCounter++; 
-    }
+        }
     // only print the users array list
         return player;
    }
 
+   public int hit(){
+        System.out.println("Do you want a hit? press 1 for yes, 2 for no.");
+        int cardChoice = input.nextInt();
+        return cardChoice;
+   }
     
     // ** logic operation for computer
-    public void compHandVal(){
-    
-        for( int j = 0; j<= comp.size(); j++){
-            String cardFace = comp.remove(j) +"";
+    public void compHandVal() throws IndexOutOfBoundsException{
+        
+        while(compHandCount<comp.size()){
             
-            switch(cardFace){
-                case "King": 
-                case  "Queen":
-                case  "Jack":
-                case  "Ten":
-                    compHand += 10;
-                    break;
-                case "Deuce":
-                    compHand += 2;
-                    break;
-                 case "Three":
-                    compHand += 3;                  
-                    break;
-                case "Four":
-                    compHand += 4;                   
-                    break;
-                case "Five":
-                    compHand += 5;                  
-                    break;
-                case "Six":
-                    compHand += 6;                  
-                    break;
-                case "Seven":
-                    compHand += 7;                
-                    break;
-                case "Eight":
-                    compHand += 8;                 
-                    break;
-                case "Nine":
-                    compHand += 9;            
-                    break;
-            }// end switch case
-        }// end for loop
+            String cardFace = comp.get(compHandCount) +"";
+            // once card is removed from front next card moved into index zero
+            // add value of card to sum of computer hand
+            if(cardFace.contains("King") || cardFace.contains("Queen")
+                || cardFace.contains("Jack") || cardFace.contains("Ten")){
+                compHand += 10;
+            }else if(cardFace.contains("Deuce")){
+                compHand += 2;
+            }else if(cardFace.contains("Three")){
+                compHand += 3;
+            }else if(cardFace.contains("Four")){
+                compHand += 4;
+            }else if(cardFace.contains("Five")){
+                compHand += 5;
+            }else if(cardFace.contains("Six")){
+                compHand += 6;
+            }else if(cardFace.contains("Seven")){
+                compHand += 7;
+            }else if(cardFace.contains("Eight")){
+                compHand += 8;
+            }else if(cardFace.contains("Nine")){
+                compHand += 9;
+            }else{
+                return;
+            }// end if else
+            compHandCount++; //counter
+        }// end while
     }// end method
+
 // think there must be a way to do one case switch for both arrayLists and both hand totals but dont know how
     public void playHandVal(){
-    
-        for( int j = 0; j<= player.size(); j++){
-            String cardFace = player.remove(j) +"";
+        int i = 0; // counter
+        while (i<player.size()){
             
-            switch(cardFace){
-                case "King": 
-                case  "Queen":
-                case  "Jack":
-                case  "Ten":
-                    playHand += 10;
-                    break;
-                case "Deuce":                  
-                    playHand += 2;
-                    break;
-                 case "Three":                  
-                    playHand += 3;
-                    break;
-                case "Four":                   
-                    playHand += 4;
-                    break;
-                case "Five":                  
-                    playHand += 5;
-                    break;
-                case "Six":                  
-                    playHand += 6;
-                    break;
-                case "Seven":                  
-                    playHand += 7;
-                    break;
-                case "Eight":                
-                    playHand += 8;
-                    break;
-                case "Nine":              
-                    playHand += 9;
-                    break;
-            }// end switch case
-        }// end for loop
+            String cardFace = player.get(i) +""; // once card is removed off top next
+            // card is at index zero 
+            
+            if(cardFace.contains("King") || cardFace.contains("Queen")
+                || cardFace.contains("Jack") || cardFace.contains("Ten")){
+                playHand += 10;
+            }else if(cardFace.contains("Deuce")){
+                playHand += 2;
+            }else if(cardFace.contains("Three")){
+                playHand += 3;
+            }else if(cardFace.contains("Four")){
+                playHand += 4;
+            }else if(cardFace.contains("Five")){
+                playHand += 5;
+            }else if(cardFace.contains("Six")){
+                playHand += 6;
+            }else if(cardFace.contains("Seven")){
+                playHand += 7;
+            }else if(cardFace.contains("Eight")){
+                playHand += 8;
+            }else if(cardFace.contains("Nine")){
+                playHand += 9;
+            }else{
+                return;
+            }// end if else
+            i++; // counter 
+        }// end while
 
     }// end method
 
-    public void ace(){
-    for( int j = 0; j<= comp.size(); j++){
-        String cardFace = comp.remove(j) +"" ;
-        if(compHand<=5 && cardFace.contains("Ace")){
+    public void ace(){ // method for handling a computer ace
+        int i = 0; // counter
+        while(i<comp.size()){
+            String cardFace = comp.get(i) +"" ;
+        
+        if(compHand > 10 && cardFace.contains("Ace")){
             compHand ++; // treat ace as a 1
-            comp.add(deckStack.pop()); // take another card
-            compHandVal(); // add value of that card to hand
-        } else if(cardFace.contains("Ace")){
+            
+        } else if(compHand <= 10 && cardFace.contains("Ace")){
             compHand += 11; // treat ace as an 11
-        } // end if else
-    }// end for loop
-    for( int i = 0; i<= player.size(); i++){
-        String cardFace = player.remove(i) +"" ;
+        } else if (compHand <=15){
+            comp.add(deckStack.pop()); // take another card\
+            compHandVal(); // sum comp hand with addtional card
+        }// end if else
+        i++;
+    }// end while
+    
+        int j = 0; // counter 
+    while(j<player.size()){
+        
+        String cardFace = player.get(j) +"" ;
         if(cardFace.contains("Ace")){
             playHand += playerAce();
 
         }else{
-            return;
+            // do nothing
         }// end if
-    } // end for loop
+        j++;
+    } // end while
+    return;
 } // end method ace
 
-public int playerAce(){
-        System.out.println("would you like to play your ace as a 1 or an 11?");
-         int aceVal = input.nextInt();
-         return aceVal;
-}
+public int playerAce(){ // method for handling a player ace
+    int aceVal = 0; // initialize value to be set by player choice
+    do{
+        System.out.println("would you like to play your ace as a 1 or a 11?");
+        aceVal = input.nextInt();
+    }while(  aceVal != 1 && aceVal != 11 );
+    return aceVal; // returns
+}// end playerAce method
 
-    // offer a hit
+
+    
     // show cards and sum them
-    // ** assign points back
-    // offer to play again
+public String compare(){
+    if(compHand > 21 && playHand > 21){
+        pPoints += pot/2; // if tie for loss, split pot 
+        cPoints += pot/2;
+        pot = 0;
+        winString = "You both lost, you have " +pPoints+ " points" ;
+    }else if (compHand >= playHand || playHand > 21 ){
+        winString = "You  lost, you have " +pPoints+ " points" ;
+        // ** assign points back
+            cPoints+=pot;
+            pot = 0;
+    }else if(compHand <= playHand || compHand > 21 ){
+        pPoints += pot;
+        winString = "You Won! You have " +pPoints+ " points" ;
+            
+            pot = 0;
+    }// end if else
+        return winString;
+}// end compare method
+ 
+// offer to play again
+public int playYN(){
+  int choice = 0; // value for do while and return to main for play loop 
+    
+    System.out.println("Would you like to play? ");
+    String choiceYN = input.next();// reads user input as string
+    do{
+        switch(choiceYN){
+            case"YES": // yes options
+            case"yes":
+            case"ya":
+            case"yuh":
+            case"y":
+                choice = 1; 
+                comp.clear();// clear players hands
+                player.clear();
+                compHandCount = 0; //reset value 
+        break;
+            case "NO": // no options
+            case "no":
+            case "n":
+            case "nah":
+                choice = 0;
+        break;
+            default:// if neither yes or no
+                System.out.println("Faulty Input: please try again");
+            }//end switch case
+        }while(choice != 1 && choice != 0 ); 
+    return choice;
+
+    
+    }   // end playYN method
+public void end(){
+    System.out.println("Computer Points " +cPoints);
+    System.out.println("Your Points " + pPoints);
+    System.out.println("Goodbye");
+
 }
+}// end class CardMethod
