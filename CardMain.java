@@ -20,22 +20,44 @@ public class CardMain{
     } catch (Exception FileNotFound) {
         
     } 
-        // create deck of cards
-        //System.out.println(myGame.printDeck());
-        //CardMethod.deckOfCards();
+       
+        int choice = 0; // int for play do while control, set by playYN();
+do{
+     // create deck of cards
         myGame.shuffle();
-
+        // ** points system, could wager
         System.out.println(myGame.bet() + " points are on the table");
+        
+        
+        int cardChoice = 0; // int for controlling hit method
         // deal (display to terminal)
-        System.out.println("Your Hand: " + myGame.deal());
+
+        System.out.println("Your Hand: " + myGame.deal(cardChoice));
+        // show player hand, deal another card if needed.
+        do{
+             cardChoice = myGame.hit();
+            if(cardChoice == 1){
+                System.out.println(myGame.deal(cardChoice));
+            }else{
+                System.out.println(myGame.deal(cardChoice));
+                break;
+            }// end if else
+        }while(cardChoice == 1);
+ // logic operation
         myGame.compHandVal();
         myGame.playHandVal();
-        myGame.ace();
+        myGame.ace(); // also runs compHandVal
+
         // ** if possible ** deal to computer too, play against computer
-        // ** points system, could wager
-        // logic operation
-        // deal again or compare hands
-        //** assign points to player
-        // ask if want to play again
+      
+       // determine who wins and assign points back
+        System.out.println(myGame.compare());
+        System.out.println("Opponent Hand " + myGame.comp); // show opponent hand
+        
+        choice = myGame.playYN(); // see if player wants to play agian, returns 1 if yes
+    }while(choice == 1); // end of master play loop
+    
+    myGame.end(); // end method. displays stats
+       
     }
 }
