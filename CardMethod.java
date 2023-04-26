@@ -1,3 +1,6 @@
+// Lucas Lassila
+// This is the Manager class for The Black Jack Card Game
+
 // the Card Method class will have the methods that will be called by Card Main and act on the Card Class
 // object
 // I will choose the game 21 (aka black jack) because I know it best. Being a simpler game I may 
@@ -55,22 +58,22 @@ public class CardMethod{
   
 }// end deck of cards method
 
-/*public String printDeck(){
-    String deckString = deck.toString();
-    return deckString;
-}*/
+
 
     // file IO for instructions
-    public static Queue<String> instructions() 
-        throws FileNotFoundException{
-        Scanner readLine = new Scanner(new File("instruction.txt")); // create scanner to read file
+    public static Queue<String> instructions() {
         Queue <String> q = new LinkedList<String>(); // create queue
+        try {
+            
+        Scanner readLine = new Scanner(new File("Welcome.txt")); // create scanner to read file
         String line = null;
-        
         while(readLine.hasNextLine()){
              line = readLine.nextLine();
             q.add(line);// fill queue with line
         }
+        
+    } catch (Exception fileNotFoundException) {
+    }// end try catch
         return q;
     }
 
@@ -142,7 +145,7 @@ public class CardMethod{
         while(compHandCount<comp.size()){
             
             String cardFace = comp.get(compHandCount) +"";
-            // once card is removed from front next card moved into index zero
+            // get value of card
             // add value of card to sum of computer hand
             if(cardFace.contains("King") || cardFace.contains("Queen")
                 || cardFace.contains("Jack") || cardFace.contains("Ten")){
@@ -215,8 +218,8 @@ public class CardMethod{
             
         } else if(compHand <= 10 && cardFace.contains("Ace")){
             compHand += 11; // treat ace as an 11
-        } else if (compHand <=15){
-            comp.add(deckStack.pop()); // take another card\
+        } else if (compHand <= 15){
+            comp.add(deckStack.pop()); // take another card
             compHandVal(); // sum comp hand with addtional card
         }// end if else
         i++;
@@ -255,7 +258,7 @@ public String compare(){
         cPoints += pot/2;
         pot = 0;
         winString = "You both lost, you have " +pPoints+ " points" ;
-    }else if (compHand >= playHand || playHand > 21 ){
+    }else if (21 <= compHand && compHand >= playHand || playHand > 21 ){
         winString = "You  lost, you have " +pPoints+ " points" ;
         // ** assign points back
             cPoints+=pot;
@@ -265,6 +268,11 @@ public String compare(){
         winString = "You Won! You have " +pPoints+ " points" ;
             
             pot = 0;
+    } else if( compHand == 21 && playHand == 21){
+        pPoints += pot;
+        winString = "Tie! You have " +pPoints+ " points" ;
+
+    }else{
     }// end if else
         return winString;
 }// end compare method

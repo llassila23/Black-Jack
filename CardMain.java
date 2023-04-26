@@ -1,3 +1,11 @@
+// Programmer Lucas Lassila
+// 4/25/2023
+// CS&142 
+// Lab Four Card Game - Black Jack
+// This is the Main method and controls the CardMethod.Java Manager class
+// and the Card.java object class
+
+
 
 // the Card Main class will execute the program by calling the methods defined in Card Method
 import java.io.*;
@@ -10,19 +18,20 @@ public class CardMain{
             CardMethod myGame = new CardMethod(); // class, instance name, new instance of constructor method
             
 // begin calling methods to act on the card class
+
 // instructions, uses a queue created in card method transfer and print the instructions from instructions.txt file
    
-    try {
+    try { 
         Queue<String> q = CardMethod.instructions();
         while(!q.isEmpty()){
             System.out.println(q.remove());
         }
     } catch (Exception FileNotFound) {
-        
+
     } 
        
         int choice = 0; // int for play do while control, set by playYN();
-do{
+    do{
      // create deck of cards
         myGame.shuffle();
         // ** points system, could wager

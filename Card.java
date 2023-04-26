@@ -1,4 +1,6 @@
-// this file will be for the card object
+// Lucas Lassila
+
+// This is the Card Object for the Black Jack Game
 // it will have a constructor 
 // it will return the card to the CardMethod class
 
